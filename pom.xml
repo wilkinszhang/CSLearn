@@ -10,5 +10,11 @@
             <artifactId>guava</artifactId>
             <version>33.4.0-jre</version>
         </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version> <!-- 可以使用最新版本 -->
+        </dependency>
     </dependencies>
 </project>
