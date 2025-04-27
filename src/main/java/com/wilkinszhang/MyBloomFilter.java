@@ -2,12 +2,12 @@ package com.wilkinszhang;
 
 import java.util.BitSet;
 
-public class BloomFilter<T>{
+public class MyBloomFilter<T>{
     private final BitSet bits;
     private final int m;
     private final int k;
     private final int n;
-    public BloomFilter(int n,double falsePositiveRate){
+    public MyBloomFilter(int n, double falsePositiveRate){
         this.n=n;
         this.m=(int)Math.ceil(-n*Math.log(falsePositiveRate)/Math.log(2)*Math.log(2));
         this.k=(int)Math.ceil((m/(double)n)*Math.log(2));
