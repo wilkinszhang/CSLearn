@@ -10,88 +10,96 @@ import java.util.concurrent.TimeUnit;
 
 
 //带过期时间和异步扫描的LRU
-public class ExpiringLRUCache<K,V> {
+public class ExpiringLRUCache {
     private final int capacity;
     private final long ttlMillis;
     private final long scanIntervalMillis;
-    private final Map<K,CacheEntry<V>> map;
+    private final Map<Integer, CacheEntry> map;
     private final ScheduledExecutorService cleaner;
 
-    private static class CacheEntry<V>{
-        final V value;
+    private static class CacheEntry {
+        final int value;
         final long expiryTime;
-        CacheEntry(V value,long ttl){
-            this.value=value;
-            this.expiryTime=System.currentTimeMillis()+ttl;
+        CacheEntry(int value, long ttl) {
+            this.value = value;
+            this.expiryTime = System.currentTimeMillis() + ttl;
         }
-        boolean isExpired(){
-            return System.currentTimeMillis()>=expiryTime;
+        boolean isExpired() {
+            return System.currentTimeMillis() >= expiryTime;
         }
     }
 
-    public ExpiringLRUCache(int capacity,long ttlMillis,long scanIntervalMillis){
-        this.capacity=capacity;
-        this.ttlMillis=ttlMillis;
-        this.scanIntervalMillis=scanIntervalMillis;
-        this.map= Collections.synchronizedMap(new LinkedHashMap<K,CacheEntry<V>>(capacity,0.75f,true){
+    public ExpiringLRUCache(int capacity, long ttlMillis, long scanIntervalMillis) {
+        this.capacity = capacity;
+        this.ttlMillis = ttlMillis;
+        this.scanIntervalMillis = scanIntervalMillis;
+        this.map = new LinkedHashMap<Integer, CacheEntry>(capacity, 0.75f, true) {
             @Override
-            protected boolean removeEldestEntry(Map.Entry<K,CacheEntry<V>> eldest){
-                return size()>ExpiringLRUCache.this.capacity;
+            protected boolean removeEldestEntry(Map.Entry<Integer, CacheEntry> eldest) {
+                return size() > ExpiringLRUCache.this.capacity;
             }
-        });
-        this.cleaner= Executors.newSingleThreadScheduledExecutor();
+        };
+        this.cleaner = Executors.newSingleThreadScheduledExecutor();
         startCleaner();
     }
 
-    private void startCleaner(){
-        cleaner.scheduleAtFixedRate(()->{
-            long now=System.currentTimeMillis();
-            synchronized (map){
-                Iterator<Map.Entry<K,CacheEntry<V>>> it=map.entrySet().iterator();
-                while (it.hasNext()){
-                    Map.Entry<K,CacheEntry<V>> e=it.next();
-                    if(e.getValue().isExpired()){
+    private void startCleaner() {
+        cleaner.scheduleAtFixedRate(() -> {
+            synchronized (map) {
+                Iterator<Map.Entry<Integer, CacheEntry>> it = map.entrySet().iterator();
+                while (it.hasNext()) {
+                    if (it.next().getValue().isExpired()) {
                         it.remove();
                     }
                 }
             }
-        },scanIntervalMillis,scanIntervalMillis, TimeUnit.MILLISECONDS);
+        }, scanIntervalMillis, scanIntervalMillis, TimeUnit.MILLISECONDS);
     }
 
-    public V get(K key){
-        CacheEntry<V> entry=map.get(key);
-        if(entry==null||entry.isExpired()){
-            if(entry!=null){
-                map.remove(key);
+    public Integer get(int key) {
+        CacheEntry entry;
+        synchronized (map) {
+            entry = map.get(key);
+        }
+        if (entry == null || entry.isExpired()) {
+            if (entry != null) {
+                synchronized (map) {
+                    map.remove(key);
+                }
             }
             return null;
         }
         return entry.value;
     }
 
-    public void put(K key,V value){
-        map.put(key,new CacheEntry<>(value,ttlMillis));
+    public void put(int key, int value) {
+        CacheEntry entry = new CacheEntry(value, ttlMillis);
+        synchronized (map) {
+            map.put(key, entry);
+        }
     }
 
-    public int size(){
-        return map.size();
+    public int size() {
+        synchronized (map) {
+            return map.size();
+        }
     }
 
-    public void shutdown(){
+    public void shutdown() {
         cleaner.shutdown();
     }
 
-    public static void main(String [] args)throws InterruptedException{
-        ExpiringLRUCache<String,String>cache=new ExpiringLRUCache<>(3,2000,1000);
-        cache.put("a","A");
-        cache.put("b","B");
+    public static void main(String[] args) throws InterruptedException {
+        ExpiringLRUCache cache = new ExpiringLRUCache(3, 2000, 1000);
+        cache.put(1, 100);
+        cache.put(2, 200);
         Thread.sleep(1500);
-        cache.put("c","C");
-        System.out.println(cache.get("a"));
+        cache.put(3, 300);
+        System.out.println("get(1) = " + cache.get(1));  // 还没过期，应输出 100
         Thread.sleep(1000);
-        System.out.println(cache.get("a"));
-        cache.put("d","D");
-        System.out.println(cache.map.keySet());
+        System.out.println("get(1) = " + cache.get(1));  // 已过期，输出 null
+        cache.put(4, 400);
+        System.out.println("当前 key 集合: " + cache.map.keySet()); // LRU 驱逐最老未被访问的
         cache.shutdown();
     }
 }
