@@ -5,15 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class TreeNode {
-    int val;
-    TreeNode left, right;
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-}
-
 public class BinaryTreeFromParentArray {
     public static TreeNode createTree(int[] parent) {
         Map<Integer, TreeNode> nodeMap = new HashMap<>();

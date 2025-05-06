@@ -3,16 +3,6 @@ package com.wilkinszhang;
 import java.util.HashMap;
 import java.util.Map;
 
-class HuffmanNode {
-    char character;
-    HuffmanNode left;
-    HuffmanNode right;
-
-    HuffmanNode(char character) {
-        this.character = character;
-    }
-}
-
 public class HuffmanDecoder {
 
     public static HuffmanNode buildHuffmanTree(Map<Character, String> huffmanCodes) {

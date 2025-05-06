@@ -2,16 +2,6 @@ package com.wilkinszhang;
 
 import java.util.*;
 
-class MemoryPartition {
-    int start;
-    int size;
-
-    public MemoryPartition(int start, int size) {
-        this.start = start;
-        this.size = size;
-    }
-}
-
 public class BestFitMemoryAllocation {
 
     private List<MemoryPartition> freePartitions;  // 用于存储空闲分区
