@@ -2,6 +2,7 @@ package com.wilkinszhang;
 
 import java.util.Stack;
 
+//最大栈 力扣会员题
 public class MaxStack {
     private Stack<Integer> stack; // 主栈
     private int max; // 当前最大值
