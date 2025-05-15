@@ -1,6 +1,8 @@
 //
 // Created by zhangweijian on 2025/4/16.
 //
+
+// 定长循环队列
 class CircularQueue {
 public:
     CircularQueue(int capacity)

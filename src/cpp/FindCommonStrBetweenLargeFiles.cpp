@@ -1,7 +1,7 @@
 //
 // Created by zhangweijian on 2025/4/27.
 //
-//基于“哈希分桶 + 分治”，在外存（≈300 GB 数据、每个文件 1 亿行）高效地求两个文件的交集。
+// 基于“哈希分桶 + 分治”，在外存（≈300 GB 数据、每个文件 1 亿行）高效地求两个文件的交集。
 #include<bits/stdc++.h>
 #include <sys/stat.h>
 

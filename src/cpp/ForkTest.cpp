@@ -6,6 +6,7 @@
 #include<sys/types.h>
 #include<errno.h>
 
+// fork方法的返回值
 int main(void) {
     pid_t pid=fork();
     if(pid<0) {

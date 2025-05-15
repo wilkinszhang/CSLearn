@@ -8,6 +8,7 @@
 #include <map>
 using namespace std;
 
+// 跳表
 template <typename K, typename V>
 struct SkipListNode {
   int level;
