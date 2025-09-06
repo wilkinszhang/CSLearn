@@ -4,18 +4,18 @@ import java.util.*;
 
 public class DelNodesInForest {
 
-    public List<TreeNode2> delNodes(TreeNode2 root, int[] nums) {
+    public List<TreeNode> delNodes(TreeNode root, int[] nums) {
         Set<Integer> toDelete = new HashSet<>();
         for (int num : nums) {
             toDelete.add(num);
         }
 
-        List<TreeNode2> forest = new ArrayList<>();
+        List<TreeNode> forest = new ArrayList<>();
         deleteNodes(root, toDelete, forest, true);
         return forest;
     }
 
-    private TreeNode2 deleteNodes(TreeNode2 node, Set<Integer> toDelete, List<TreeNode2> forest, boolean isRoot) {
+    private TreeNode deleteNodes(TreeNode node, Set<Integer> toDelete, List<TreeNode> forest, boolean isRoot) {
         if (node == null) {
             return null;
         }
@@ -38,22 +38,22 @@ public class DelNodesInForest {
 
     public static void main(String[] args) {
         // 构造二叉树
-        TreeNode2 root = new TreeNode2(1);
-        root.left = new TreeNode2(2);
-        root.right = new TreeNode2(3);
-        root.left.left = new TreeNode2(4);
-        root.left.right = new TreeNode2(5);
-        root.right.left = new TreeNode2(6);
-        root.right.right = new TreeNode2(7);
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
 
         int[] nums = {3, 5};
 
         DelNodesInForest solution = new DelNodesInForest();
-        List<TreeNode2> forest = solution.delNodes(root, nums);
+        List<TreeNode> forest = solution.delNodes(root, nums);
 
         // 打印结果森林的根节点值
         System.out.println("森林的根节点:");
-        for (TreeNode2 tree : forest) {
+        for (TreeNode tree : forest) {
             System.out.println(tree.val);
         }
     }

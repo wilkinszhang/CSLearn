@@ -1,3 +1,5 @@
+package com.wilkinszhang;
+
 public class InsertionSort {
     public static int insertionSortWithComparisonCount(int[] arr) {
         int comparisonCount = 0; // 用于记录比较次数

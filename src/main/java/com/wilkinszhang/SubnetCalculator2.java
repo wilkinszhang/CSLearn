@@ -1,3 +1,5 @@
+package com.wilkinszhang;
+
 public class SubnetCalculator2 {
 
     public static String calculateSubnetAddress(String ip, String subnetMask) {

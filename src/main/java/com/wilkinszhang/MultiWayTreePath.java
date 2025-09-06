@@ -3,16 +3,6 @@ package com.wilkinszhang;
 import java.util.ArrayList;
 import java.util.List;
 
-class TreeNode3 {
-    int value;
-    List<TreeNode3> children;
-
-    public TreeNode3(int value) {
-        this.value = value;
-        this.children = new ArrayList<>();
-    }
-}
-
 public class MultiWayTreePath {
 
     // 在树中查找从根节点到目标节点的路径

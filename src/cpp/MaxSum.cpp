@@ -3,6 +3,7 @@
 #include <climits>
 using namespace std;
 
+// 给定长度n数组nums，k，m，返回nums中选出k个互不重叠的子数组，使得每个子数组长度至少为m，并且使得子数组所有元素之和总和最大。
 class Solution {
 public:
     long long maxSum(vector<int>& nums, int k, int m) {

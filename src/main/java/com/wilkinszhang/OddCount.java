@@ -1,3 +1,5 @@
+package com.wilkinszhang;
+
 public class OddCount {
     public static int oddEvenCheck(String binaryString) {
         // 初始化两个变量，分别记录 '0' 和 '1' 的奇偶性

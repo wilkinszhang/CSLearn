@@ -1,3 +1,5 @@
+package com.wilkinszhang;
+
 import java.io.UnsupportedEncodingException;
 
 public class EncodingExample {

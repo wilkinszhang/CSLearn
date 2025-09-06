@@ -3,24 +3,25 @@
 //
 // https://oj.niumacode.com/problem/P1422
 // https://leetcode.cn/problems/minimum-edge-weight-equilibrium-queries-in-a-tree/description/?envType=daily-question&envId=2024-01-26
+/*
+       1(A)
+      /   \
+     2(U)  3(G)
+    / \
+   4(B) 5(C)
+  /     \
+ 7(B)    6(G)
+ 查询是从节点7到节点6的路径：
+ 7 → 4 → 2 → 5 → 6
+ 对应的字母序列是: B → B → U → C → G
+ 在这个序列"BBUCG"中，我们可以找到子序列"BUG"：
 
-//       1(A)
-//      /   \
-//     2(U)  3(G)
-//    / \
-//   4(B) 5(C)
-//  /     \
-// 7(B)    6(G)
-// 查询是从节点7到节点6的路径：
-// 7 → 4 → 2 → 5 → 6
-// 对应的字母序列是: B → B → U → C → G
-// 在这个序列"BBUCG"中，我们可以找到子序列"BUG"：
-//
-// 第一个B（来自节点7）
-// U（来自节点2）
-// G（来自节点6）
-//
-// 因为从节点7到节点6的路径上的字母序列中包含"BUG"作为子序列，所以(7, 6)不是好对，输出"NO"。
+ 第一个B（来自节点7）
+ U（来自节点2）
+ G（来自节点6）
+
+ 因为从节点7到节点6的路径上的字母序列中包含"BUG"作为子序列，所以(7, 6)不是好对，输出"NO"。
+ */
 
 #include <iostream>
 #include <vector>
